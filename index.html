@@ -2811,7 +2811,7 @@ var Button = {
 		
 		if(options.cost) {
 			var ttPos = options.ttPos ? options.ttPos : "bottom right";
-			var costTooltip = $('<div>').addClass('tooltip ' + ttPos);
+			var costTooltip = $('<div>').addClass('tooltip ' + ttPos).hide().appendTo('body');
 			var affordable = true;
 			for(var k in options.cost) {
 				var have = $SM.get("stores." + _(k));
@@ -2822,7 +2822,14 @@ var Button = {
 			}
 			el.toggleClass('affordable', affordable);
 			if(costTooltip.children().length > 0) {
-				costTooltip.appendTo(el);
+				el.data('costTooltip', costTooltip);
+				el.hover(function(){
+					var btn = $(this), tip = btn.data('costTooltip');
+					var o = btn.offset();
+					tip.css({top: o.top + btn.outerHeight(), left: o.left}).show();
+				}, function(){
+					$(this).data('costTooltip').hide();
+				});
 			}
 			// Subscribe to stateUpdateEvent
 			$.Dispatch('stateUpdate').subscribe(function (e) {
