@@ -6015,8 +6015,8 @@ var Room = {
 				}
 			} else {
 				// refresh the tooltip
-				var costTooltip = $('.tooltip', craftable.button);
-				costTooltip.empty();
+				var costTooltip = craftable.button.data('costTooltip');
+				if(costTooltip) costTooltip.empty();
 				var cost = craftable.cost();
 				for(var k in cost) {
 					$("<div>").addClass('row_key').text(_(k)).appendTo(costTooltip);
